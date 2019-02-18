@@ -1,8 +1,11 @@
 {
   "app_name": "Train find",
-  "app_args": "",
-  "app_path": "blabla.jar",
+  "app_args": ["/expedia/train.csv"],
+  "app_path": "trainfind-1.0-jar-with-dependencies.jar",
+  "verbose" : true,
   "spark": {
+    "java_home": "/usr/java/default",
+    "spark_home": "/usr/hdp/current/spark2-client/",
     "master": "local[*]",
     "class": "by.zhuk.trainfind.spark.TopHotels",
     "deploy_mode": "client",

@@ -23,18 +23,23 @@ public class SparkConfigParser implements ConfigParser {
             JSONObject rootJson = new JSONObject(text);
             SparkJobConfig config = new SparkJobConfig();
             config.setAppName(rootJson.getString("app_name"));
-            config.setAppArgString(rootJson.getString("app_args"));
+            for (Object object : rootJson.getJSONArray("app_args")) {
+                String arg = (String) object;
+                config.getArgsList().add(arg);
+            }
             config.setAppPath(rootJson.getString("app_path"));
+            config.setVerbose(rootJson.getBoolean("verbose"));
             JSONObject sparkJson =rootJson.getJSONObject("spark");
             config.setMainClass(sparkJson.getString("class"));
             config.setMode(DeployMode.valueOf(sparkJson.getString("deploy_mode").toUpperCase()));
             config.setMaster(sparkJson.getString("master"));
+            config.setJavaHome(sparkJson.getString("java_home"));
+            config.setSparkHome(sparkJson.getString("spark_home"));
             JSONObject sparkConfigJson = sparkJson.getJSONObject("config");
             for (Iterator<String> it = sparkConfigJson.keys(); it.hasNext(); ) {
                 String key = it.next();
                 config.getSparkParams().put(key,sparkConfigJson.getString(key));
             }
-
             return config;
         } catch (IOException | IllegalArgumentException e) {
             throw new ParseConfigException("Config file is invalid", e);

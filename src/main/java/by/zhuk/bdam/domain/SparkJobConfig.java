@@ -7,6 +7,9 @@ public class SparkJobConfig extends JobConfig{
     private String master ;
     private String mainClass;
     private DeployMode mode;
+    private String javaHome;
+    private String sparkHome;
+
     private Map<String,String> sparkParams;
 
     public SparkJobConfig() {
@@ -45,12 +48,30 @@ public class SparkJobConfig extends JobConfig{
         this.mode = mode;
     }
 
+    public String getJavaHome() {
+        return javaHome;
+    }
+
+    public void setJavaHome(String javaHome) {
+        this.javaHome = javaHome;
+    }
+
+    public String getSparkHome() {
+        return sparkHome;
+    }
+
+    public void setSparkHome(String sparkHome) {
+        this.sparkHome = sparkHome;
+    }
+
     @Override
     public String toString() {
         return "SparkJobConfig{" +
                 "master='" + master + '\'' +
                 ", mainClass='" + mainClass + '\'' +
                 ", mode=" + mode +
+                ", javaHome='" + javaHome + '\'' +
+                ", sparkHome='" + sparkHome + '\'' +
                 ", sparkParams=" + sparkParams +
                 '}';
     }

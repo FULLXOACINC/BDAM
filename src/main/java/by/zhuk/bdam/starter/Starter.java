@@ -10,9 +10,14 @@ import by.zhuk.bdam.executor.JobExecutor;
 import by.zhuk.bdam.executor.SparkJobExecutor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.spark.launcher.SparkLauncher;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class Starter {
     private static Logger logger = LogManager.getLogger(Starter.class);
@@ -40,23 +45,10 @@ public class Starter {
         }
         try {
             JobConfig config = parser.parse(args[1]);
-            executor.executeJob(config);
+            System.out.println(executor.executeJob(config));
         } catch (ParseConfigException | SparkJobExecuteException e) {
             logger.error("Error",e);
         }
-
-
-
-//        String cmd = "hdfs dfs -ls /";
-//        Runtime run = Runtime.getRuntime();
-//        Process pr = run.exec(cmd);
-//        pr.waitFor();
-//        BufferedReader buf = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-//        String line = "";
-//        while ((line=buf.readLine())!=null) {
-//            System.out.println(line);
-//        }
-
     }
 }
 
