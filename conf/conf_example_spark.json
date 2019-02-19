@@ -4,6 +4,7 @@
   "app_path": "trainfind-1.0-jar-with-dependencies.jar",
   "verbose" : true,
   "spark": {
+    "history_server_home": "",
     "java_home": "/usr/java/default",
     "spark_home": "/usr/hdp/current/spark2-client/",
     "master": "local[*]",
@@ -11,6 +12,7 @@
     "deploy_mode": "client",
     "config": {
       "spark.driver.cores": "2",
+      "spark.serializer": "org.apache.spark.serializer.KryoSerializer",
       "spark.driver.memory" : "2g"
     }
   }

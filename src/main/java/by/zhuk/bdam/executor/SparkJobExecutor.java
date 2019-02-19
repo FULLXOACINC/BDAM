@@ -2,7 +2,7 @@ package by.zhuk.bdam.executor;
 
 import by.zhuk.bdam.domain.JobConfig;
 import by.zhuk.bdam.domain.SparkJobConfig;
-import by.zhuk.bdam.exception.SparkJobExecuteException;
+import by.zhuk.bdam.exception.JobExecuteException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.spark.launcher.SparkAppHandle;
@@ -16,9 +16,9 @@ public class SparkJobExecutor implements JobExecutor {
     private static Logger logger = LogManager.getLogger(SparkJobExecutor.class);
 
     @Override
-    public String executeJob(JobConfig config) throws SparkJobExecuteException {
+    public String executeJob(JobConfig config) throws JobExecuteException {
         if (!(config instanceof SparkJobConfig)) {
-            throw new SparkJobExecuteException("Config is not instance of by.zhuk.bdam.domain.SparkJobConfig");
+            throw new JobExecuteException("Config is not instance of by.zhuk.bdam.domain.SparkJobConfig");
         }
         SparkJobConfig sparkJobConfig = (SparkJobConfig) config;
         SparkLauncher spark = new SparkLauncher()
