@@ -10,7 +10,7 @@ public class JobConfig {
     private boolean isVerbose;
 
     public JobConfig() {
-        argsList= new ArrayList<>();
+        argsList = new ArrayList<>();
     }
 
     public String getAppName() {

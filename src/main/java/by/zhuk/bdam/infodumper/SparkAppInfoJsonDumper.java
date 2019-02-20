@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class SparkAppInfoDumper implements AppInfoDumper {
+public class SparkAppInfoJsonDumper implements AppInfoJsonDumper {
     @Override
     public JSONObject dump(String appId, JobConfig config) throws JobDumpException {
         if (!(config instanceof SparkJobConfig)) {
@@ -24,11 +24,16 @@ public class SparkAppInfoDumper implements AppInfoDumper {
         GetMethod methodMainApp = new GetMethod("http://10.6.87.200:18081/api/v1/applications/" + appId);
         GetMethod methodStages = new GetMethod("http://10.6.87.200:18081/api/v1/applications/" + appId + "/stages");
         JSONObject result = new JSONObject();
-        try {
-            client.executeMethod(methodMainApp);
-            JSONObject appInfo = new JSONObject(new JSONTokener(new InputStreamReader(methodMainApp.getResponseBodyAsStream())));
-            Long duration = appInfo.getJSONArray("attempts").getJSONObject(0).getLong("duration");
-            result.put("duration", duration);
+        try{
+            JSONObject appInfo;
+            boolean isAppCompleted;
+            do{
+                client.executeMethod(methodMainApp);
+                appInfo = new JSONObject(new JSONTokener(new InputStreamReader(methodMainApp.getResponseBodyAsStream())));
+                Long duration = appInfo.getJSONArray("attempts").getJSONObject(0).getLong("duration");
+                result.put("duration", duration);
+                isAppCompleted=appInfo.getJSONArray("attempts").getJSONObject(0).getBoolean("completed");
+            }while(!isAppCompleted);
 
             client.executeMethod(methodStages);
             JSONArray stages = new JSONArray(new JSONTokener(new InputStreamReader(methodStages.getResponseBodyAsStream())));

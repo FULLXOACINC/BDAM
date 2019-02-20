@@ -3,14 +3,14 @@ package by.zhuk.bdam.domain;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SparkJobConfig extends JobConfig{
-    private String master ;
+public class SparkJobConfig extends JobConfig {
+    private String master;
     private String mainClass;
     private DeployMode mode;
     private String javaHome;
     private String sparkHome;
 
-    private Map<String,String> sparkParams;
+    private Map<String, String> sparkParams;
 
     public SparkJobConfig() {
         sparkParams = new HashMap<>();

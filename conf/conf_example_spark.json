@@ -11,9 +11,9 @@
     "class": "by.zhuk.trainfind.spark.TopHotels",
     "deploy_mode": "client",
     "config": {
-      "spark.driver.cores": "2",
-      "spark.serializer": "org.apache.spark.serializer.KryoSerializer",
-      "spark.driver.memory" : "2g"
+      "spark.driver.cores": "4",
+      "spark.driver.memory" : "4g",
+      "spark.locality.wait": "0s"
     }
   }
 

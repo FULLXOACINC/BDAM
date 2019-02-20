@@ -3,8 +3,6 @@ package by.zhuk.bdam.executor;
 import by.zhuk.bdam.domain.JobConfig;
 import by.zhuk.bdam.domain.SparkJobConfig;
 import by.zhuk.bdam.exception.JobExecuteException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.spark.launcher.SparkAppHandle;
 import org.apache.spark.launcher.SparkLauncher;
 
@@ -13,13 +11,13 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class SparkJobExecutor implements JobExecutor {
-    private static Logger logger = LogManager.getLogger(SparkJobExecutor.class);
 
     @Override
     public String executeJob(JobConfig config) throws JobExecuteException {
         if (!(config instanceof SparkJobConfig)) {
             throw new JobExecuteException("Config is not instance of by.zhuk.bdam.domain.SparkJobConfig");
         }
+        System.setProperty("java.util.logging.SimpleFormatter.format","%5$s%6$s%n");
         SparkJobConfig sparkJobConfig = (SparkJobConfig) config;
         SparkLauncher spark = new SparkLauncher()
                 .setVerbose(sparkJobConfig.isVerbose())
@@ -41,9 +39,8 @@ public class SparkJobExecutor implements JobExecutor {
             }
             return handle.getAppId();
         } catch (IOException | InterruptedException e) {
-            logger.error(e);
+            throw new JobExecuteException(e);
         }
-        return null;
     }
 
 }

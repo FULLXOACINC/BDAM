@@ -1,4 +1,4 @@
-package by.zhuk.bdam.configparser;
+package by.zhuk.bdam.parser;
 
 import by.zhuk.bdam.domain.DeployMode;
 import by.zhuk.bdam.domain.JobConfig;
@@ -29,7 +29,7 @@ public class SparkConfigParser implements ConfigParser {
             }
             config.setAppPath(rootJson.getString("app_path"));
             config.setVerbose(rootJson.getBoolean("verbose"));
-            JSONObject sparkJson =rootJson.getJSONObject("spark");
+            JSONObject sparkJson = rootJson.getJSONObject("spark");
             config.setMainClass(sparkJson.getString("class"));
             config.setMode(DeployMode.valueOf(sparkJson.getString("deploy_mode").toUpperCase()));
             config.setMaster(sparkJson.getString("master"));
@@ -38,7 +38,7 @@ public class SparkConfigParser implements ConfigParser {
             JSONObject sparkConfigJson = sparkJson.getJSONObject("config");
             for (Iterator<String> it = sparkConfigJson.keys(); it.hasNext(); ) {
                 String key = it.next();
-                config.getSparkParams().put(key,sparkConfigJson.getString(key));
+                config.getSparkParams().put(key, sparkConfigJson.getString(key));
             }
             return config;
         } catch (IOException | IllegalArgumentException e) {
