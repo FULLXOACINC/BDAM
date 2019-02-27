@@ -1,5 +1,8 @@
-package by.zhuk.bdam.analyst;
+package by.zhuk.bdam.analyst.spark.app;
 
+import by.zhuk.bdam.analyst.core.JsonAnalyst;
+import by.zhuk.bdam.analyst.spark.phase.SparkProblemPhaseStageJsonAnalyst;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Collections;
@@ -8,13 +11,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class SparkAppAppJsonAnalyst implements AppJsonAnalyst {
+public class SparkAppJsonAnalyst implements JsonAnalyst {
     private static final double ALPHA =0.95;
 
     @Override
     public JSONObject analyze(JSONObject json) {
         SparkProblemPhaseStageJsonAnalyst analyst = new SparkProblemPhaseStageJsonAnalyst();
-        JSONObject result = new JSONObject(json.toString());
+        JSONObject result = new JSONObject();
         TreeMap<Integer, JSONObject> stages = new TreeMap<>(Collections.reverseOrder());
 
         for (Object object : json.getJSONArray("stages")) {
@@ -22,9 +25,11 @@ public class SparkAppAppJsonAnalyst implements AppJsonAnalyst {
             stages.put(jsonObject.getInt("duration"),jsonObject);
         }
         TreeMap<Integer, JSONObject> fatStages = findFatStages(stages);
+        JSONArray problem = new JSONArray();
         for (JSONObject stage :fatStages.values()) {
-            analyst.analyze(stage);
+            problem.put(analyst.analyze(stage));
         }
+        result.put("problems",problem);
         return result;
     }
 
