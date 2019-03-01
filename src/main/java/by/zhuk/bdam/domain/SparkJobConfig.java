@@ -9,6 +9,7 @@ public class SparkJobConfig extends JobConfig {
     private DeployMode mode;
     private String javaHome;
     private String sparkHome;
+    private String historyServerAddress;
 
     private Map<String, String> sparkParams;
 
@@ -62,6 +63,14 @@ public class SparkJobConfig extends JobConfig {
 
     public void setSparkHome(String sparkHome) {
         this.sparkHome = sparkHome;
+    }
+
+    public String getHistoryServerAddress() {
+        return historyServerAddress;
+    }
+
+    public void setHistoryServerAddress(String historyServerAddress) {
+        this.historyServerAddress = historyServerAddress;
     }
 
     @Override

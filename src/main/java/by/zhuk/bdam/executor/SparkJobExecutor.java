@@ -17,7 +17,7 @@ public class SparkJobExecutor implements JobExecutor {
         if (!(config instanceof SparkJobConfig)) {
             throw new JobExecuteException("Config is not instance of by.zhuk.bdam.domain.SparkJobConfig");
         }
-        System.setProperty("java.util.logging.SimpleFormatter.format","%5$s%6$s%n");
+        System.setProperty("java.util.logging.SimpleFormatter.format", "%5$s%6$s%n");
         SparkJobConfig sparkJobConfig = (SparkJobConfig) config;
         SparkLauncher spark = new SparkLauncher()
                 .setVerbose(sparkJobConfig.isVerbose())

@@ -2,7 +2,7 @@ package by.zhuk.bdam.analyst.spark.phase;
 
 import org.json.JSONObject;
 
-public class SparkSchedulerDelayPhaseJsonAnalist implements PhaseProblemJsonAnalyst{
+public class SparkSchedulerDelayPhaseJsonAnalyst implements PhaseProblemJsonAnalyst {
 
     public boolean isPhaseHasProblem(JSONObject jsonObject) {
         double schedulerDelayMax = jsonObject.getJSONArray("schedulerDelay").getDouble(1) / 1000;

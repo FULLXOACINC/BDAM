@@ -12,25 +12,26 @@ public class SparkProblemPhaseStageJsonAnalyst implements JsonAnalyst {
 
     static {
         phaseAnalystList = new HashMap<>();
-        phaseAnalystList.put("jvmGc", new SparkGCTimePhaseJsonAnalist());
-        phaseAnalystList.put("gettingResult", new SparkGettingResultPhaseJsonAnalist());
-        phaseAnalystList.put("schedulerDelay", new SparkSchedulerDelayPhaseJsonAnalist());
-        phaseAnalystList.put("serialization", new SparkSerializationPhasesJsonAnalist());
-        phaseAnalystList.put("shuffleRead", new SparkShuffleReadPhaseJsonAnalist());
-        phaseAnalystList.put("shuffleWrite", new SparkShuffleWritePhaseJsonAnalist());
+        phaseAnalystList.put("jvmGc", new SparkGCTimePhaseJsonAnalyst());
+        phaseAnalystList.put("gettingResult", new SparkGettingResultPhaseJsonAnalyst());
+        phaseAnalystList.put("schedulerDelay", new SparkSchedulerDelayPhaseJsonAnalyst());
+        phaseAnalystList.put("serialization", new SparkSerializationPhasesJsonAnalyst());
+        phaseAnalystList.put("shuffleRead", new SparkShuffleReadPhaseJsonAnalyst());
+        phaseAnalystList.put("shuffleWrite", new SparkShuffleWritePhaseJsonAnalyst());
     }
+
     @Override
     public JSONObject analyze(JSONObject jsonObject) {
         JSONObject result = new JSONObject(jsonObject.toString());
         JSONObject metric = jsonObject.getJSONObject("metric");
         JSONArray problem = new JSONArray();
-        for (Map.Entry<String, PhaseProblemJsonAnalyst> entry: phaseAnalystList.entrySet()) {
-            if(entry.getValue().isPhaseHasProblem(metric)){
+        for (Map.Entry<String, PhaseProblemJsonAnalyst> entry : phaseAnalystList.entrySet()) {
+            if (entry.getValue().isPhaseHasProblem(metric)) {
                 problem.put(entry.getKey());
             }
         }
 
-        result.put("problems",problem);
+        result.put("problems", problem);
 
 
         return result;

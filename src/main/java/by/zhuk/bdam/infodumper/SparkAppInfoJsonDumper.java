@@ -4,8 +4,10 @@ import by.zhuk.bdam.domain.JobConfig;
 import by.zhuk.bdam.domain.SparkJobConfig;
 import by.zhuk.bdam.exception.JobDumpException;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -20,20 +22,20 @@ public class SparkAppInfoJsonDumper implements AppInfoJsonDumper {
         if (!(config instanceof SparkJobConfig)) {
             throw new JobDumpException("Config is not instance of by.zhuk.bdam.domain.SparkJobConfig");
         }
-        HttpClient client = new HttpClient();
-        GetMethod methodMainApp = new GetMethod("http://10.6.87.200:18081/api/v1/applications/" + appId);
-        GetMethod methodStages = new GetMethod("http://10.6.87.200:18081/api/v1/applications/" + appId + "/stages");
+        HttpClient client = new HttpClient(new MultiThreadedHttpConnectionManager());
+        GetMethod methodMainApp = new GetMethod(((SparkJobConfig) config).getHistoryServerAddress() + "/api/v1/applications/" + appId);
+        GetMethod methodStages = new GetMethod(((SparkJobConfig) config).getHistoryServerAddress() + "/api/v1/applications/" + appId + "/stages");
         JSONObject result = new JSONObject();
-        try{
+        try {
             JSONObject appInfo;
             boolean isAppCompleted;
-            do{
+            do {
                 client.executeMethod(methodMainApp);
                 appInfo = new JSONObject(new JSONTokener(new InputStreamReader(methodMainApp.getResponseBodyAsStream())));
                 Long duration = appInfo.getJSONArray("attempts").getJSONObject(0).getLong("duration");
                 result.put("duration", duration);
-                isAppCompleted=appInfo.getJSONArray("attempts").getJSONObject(0).getBoolean("completed");
-            }while(!isAppCompleted);
+                isAppCompleted = appInfo.getJSONArray("attempts").getJSONObject(0).getBoolean("completed");
+            } while (!isAppCompleted);
 
             client.executeMethod(methodStages);
             JSONArray stages = new JSONArray(new JSONTokener(new InputStreamReader(methodStages.getResponseBodyAsStream())));
@@ -56,10 +58,14 @@ public class SparkAppInfoJsonDumper implements AppInfoJsonDumper {
                 object.put("attemptId", stage.getInt("attemptId"));
                 object.put("metric", metric);
                 stagesMetric.put(object);
+                methodMetric.releaseConnection();
             }
             result.put("stages", stagesMetric);
-        } catch (IOException e) {
-            throw new JobDumpException(e);
+        } catch (IOException | JSONException e) {
+            throw new JobDumpException("Incorrect history server address", e);
+        } finally {
+            methodMainApp.releaseConnection();
+            methodStages.releaseConnection();
         }
         return result;
     }

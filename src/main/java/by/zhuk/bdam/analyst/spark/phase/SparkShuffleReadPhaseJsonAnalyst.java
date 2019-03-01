@@ -2,7 +2,7 @@ package by.zhuk.bdam.analyst.spark.phase;
 
 import org.json.JSONObject;
 
-public class SparkShuffleReadPhaseJsonAnalist implements PhaseProblemJsonAnalyst{
+public class SparkShuffleReadPhaseJsonAnalyst implements PhaseProblemJsonAnalyst {
 
     public boolean isPhaseHasProblem(JSONObject jsonObject) {
         double shuffleReadTimeMax = jsonObject.getJSONObject("shuffleReadMetrics").getJSONArray("fetchWaitTime").getDouble(1) / 1000;

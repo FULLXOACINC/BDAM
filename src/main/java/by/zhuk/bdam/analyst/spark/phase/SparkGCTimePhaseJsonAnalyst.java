@@ -2,7 +2,7 @@ package by.zhuk.bdam.analyst.spark.phase;
 
 import org.json.JSONObject;
 
-public class SparkGCTimePhaseJsonAnalist implements PhaseProblemJsonAnalyst {
+public class SparkGCTimePhaseJsonAnalyst implements PhaseProblemJsonAnalyst {
 
     public boolean isPhaseHasProblem(JSONObject jsonObject) {
         double jvmGcTimeMax = jsonObject.getJSONArray("jvmGcTime").getDouble(1) / 1000;

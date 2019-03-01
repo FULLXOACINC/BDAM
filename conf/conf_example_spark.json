@@ -1,10 +1,12 @@
 {
   "app_name": "Train find",
-  "app_args": ["/expedia/train.csv"],
+  "app_args": [
+    "/expedia/train.csv"
+  ],
   "app_path": "trainfind-1.0-jar-with-dependencies.jar",
-  "verbose" : true,
+  "verbose": true,
   "spark": {
-    "history_server_home": "",
+    "history_server_address": "http://sandbox-hdp.hortonworks.com:18081",
     "java_home": "/usr/java/default",
     "spark_home": "/usr/hdp/current/spark2-client/",
     "master": "local[*]",
@@ -12,9 +14,8 @@
     "deploy_mode": "client",
     "config": {
       "spark.driver.cores": "4",
-      "spark.driver.memory" : "4g",
-      "spark.locality.wait": "0s"
+      "spark.driver.memory": "4g",
+      "spark.locality.wait": "10s"
     }
   }
-
 }

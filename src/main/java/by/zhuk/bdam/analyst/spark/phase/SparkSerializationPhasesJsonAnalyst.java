@@ -2,7 +2,7 @@ package by.zhuk.bdam.analyst.spark.phase;
 
 import org.json.JSONObject;
 
-public class SparkSerializationPhasesJsonAnalist implements PhaseProblemJsonAnalyst{
+public class SparkSerializationPhasesJsonAnalyst implements PhaseProblemJsonAnalyst {
 
     public boolean isPhaseHasProblem(JSONObject jsonObject) {
         double executorDeserializeTimeMax = jsonObject.getJSONArray("executorDeserializeTime").getDouble(1) / 1000;

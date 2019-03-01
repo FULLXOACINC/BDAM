@@ -35,6 +35,7 @@ public class SparkConfigParser implements ConfigParser {
             config.setMaster(sparkJson.getString("master"));
             config.setJavaHome(sparkJson.getString("java_home"));
             config.setSparkHome(sparkJson.getString("spark_home"));
+            config.setHistoryServerAddress(sparkJson.getString("history_server_address"));
             JSONObject sparkConfigJson = sparkJson.getJSONObject("config");
             for (Iterator<String> it = sparkConfigJson.keys(); it.hasNext(); ) {
                 String key = it.next();
