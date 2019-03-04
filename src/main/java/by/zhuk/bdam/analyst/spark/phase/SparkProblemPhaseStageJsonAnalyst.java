@@ -31,7 +31,7 @@ public class SparkProblemPhaseStageJsonAnalyst implements JsonAnalyst {
             }
         }
 
-        result.put("problems", problem);
+        result.put("stageProblems", problem);
 
 
         return result;

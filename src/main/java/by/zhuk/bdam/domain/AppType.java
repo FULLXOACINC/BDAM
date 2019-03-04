@@ -10,15 +10,19 @@ import by.zhuk.bdam.parser.ConfigParser;
 import by.zhuk.bdam.parser.SparkConfigParser;
 import by.zhuk.bdam.problemsolver.core.JsonAppProblemSolver;
 import by.zhuk.bdam.problemsolver.spark.SparkJsonAppProblemSolver;
+import by.zhuk.bdam.reconfiger.JobReconfiguer;
+import by.zhuk.bdam.reconfiger.Reconfiguer;
+import by.zhuk.bdam.reconfiger.SparkJobReconfiguer;
 
 public enum AppType {
-    SPARK(new SparkConfigParser(), new SparkJobExecutor(), new SparkAppInfoJsonDumper(), new SparkAppJsonAnalyst(), new SparkJsonAppProblemSolver());
+    SPARK(new SparkConfigParser(), new SparkJobExecutor(), new SparkAppInfoJsonDumper(), new SparkAppJsonAnalyst(), new SparkJsonAppProblemSolver(), new SparkJobReconfiguer());
 
     private ConfigParser parse;
     private JobExecutor executor;
     private AppInfoJsonDumper dumper;
     private JsonAnalyst analyst;
     private JsonAppProblemSolver problemSolver;
+    private JobReconfiguer reconfiguer;
 
     public static boolean contains(String test) {
 
@@ -31,12 +35,13 @@ public enum AppType {
         return false;
     }
 
-    AppType(ConfigParser parse, JobExecutor executor, AppInfoJsonDumper dumper, JsonAnalyst analyst, JsonAppProblemSolver problemSolver) {
+    AppType(ConfigParser parse, JobExecutor executor, AppInfoJsonDumper dumper, JsonAnalyst analyst, JsonAppProblemSolver problemSolver, JobReconfiguer reconfiguer) {
         this.parse = parse;
         this.executor = executor;
         this.dumper = dumper;
         this.analyst = analyst;
         this.problemSolver = problemSolver;
+        this.reconfiguer = reconfiguer;
     }
 
     public ConfigParser getParse() {
@@ -57,5 +62,9 @@ public enum AppType {
 
     public JsonAppProblemSolver getProblemSolver() {
         return problemSolver;
+    }
+
+    public JobReconfiguer getReconfiguer() {
+        return reconfiguer;
     }
 }

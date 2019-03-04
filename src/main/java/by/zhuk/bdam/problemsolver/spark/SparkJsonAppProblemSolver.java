@@ -1,6 +1,7 @@
 package by.zhuk.bdam.problemsolver.spark;
 
 import by.zhuk.bdam.domain.JobConfig;
+import by.zhuk.bdam.domain.JobProblemSolution;
 import by.zhuk.bdam.problemsolver.core.JsonAppProblemSolver;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class SparkJsonAppProblemSolver implements JsonAppProblemSolver {
-    private static Map<String, JsonProblemSolver> solutionMap;
+    private static Map<String, ProblemSolver> solutionMap;
 
     static {
         solutionMap = new HashMap<>();
@@ -24,25 +25,26 @@ public class SparkJsonAppProblemSolver implements JsonAppProblemSolver {
     }
 
     @Override
-    public JSONObject solveProblem(JSONObject jsonObject, JobConfig config) {
-        JSONObject result = new JSONObject();
-        JSONArray solutions = new JSONArray();
+    public JobProblemSolution solveProblem(JSONObject jsonObject, JobConfig config) {
+        JobProblemSolution solution = new JobProblemSolution();
+
         Set<String> problems = new HashSet<>();
         JSONArray array = jsonObject.getJSONArray("problems");
         for (Object stageObj : array) {
             JSONObject stage = (JSONObject) stageObj;
-            for (Object problemObj : stage.getJSONArray("problems")) {
+            for (Object problemObj : stage.getJSONArray("stageProblems")) {
                 String problem = (String) problemObj;
                 problems.add(problem);
             }
         }
         for (String problem : problems) {
             if (solutionMap.containsKey(problem)) {
-                solutions.put(solutionMap.get(problem).solve(config));
+                ProblemSolver solver = solutionMap.get(problem);
+                solution.getDescriptions().add(solver.findTextSolution(config));
+                solution.getConfig().putAll(solver.findConfigSolution(config));
             }
 
         }
-        result.put("solutions", solutions);
-        return result;
+        return solution;
     }
 }

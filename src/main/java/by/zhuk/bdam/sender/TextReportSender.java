@@ -12,7 +12,7 @@ public class TextReportSender implements ReportSender {
     }
 
     @Override
-    public void sendReports(List<Report> reports) {
+    public void sendReport(Report report) {
         System.out.println("TextReportSender");
     }
 }

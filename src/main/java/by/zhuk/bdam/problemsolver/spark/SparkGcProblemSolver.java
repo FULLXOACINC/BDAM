@@ -3,13 +3,18 @@ package by.zhuk.bdam.problemsolver.spark;
 import by.zhuk.bdam.domain.JobConfig;
 import org.json.JSONObject;
 
-public class SparkGcProblemSolver implements JsonProblemSolver {
+import java.util.HashMap;
+import java.util.Map;
+
+public class SparkGcProblemSolver implements ProblemSolver {
+
     @Override
-    public JSONObject solve(JobConfig config) {
-        JSONObject result = new JSONObject();
-        result.put("text", "gcc solution");
-        JSONObject newConfig = new JSONObject();
-        result.put("config", newConfig);
-        return result;
+    public String findTextSolution(JobConfig config) {
+        return "gcc solution";
+    }
+
+    @Override
+    public Map<String, String> findConfigSolution(JobConfig config) {
+        return new HashMap<>();
     }
 }

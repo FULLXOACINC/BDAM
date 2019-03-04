@@ -12,7 +12,7 @@ public class HtmlReportSender implements ReportSender {
     }
 
     @Override
-    public void sendReports(List<Report> reports) {
+    public void sendReport(Report report) {
         System.out.println("HtmlReportSender");
     }
 }
