@@ -4,7 +4,6 @@ import by.zhuk.bdam.domain.JobConfig;
 import by.zhuk.bdam.domain.SparkJobConfig;
 import by.zhuk.bdam.exception.JobDumpException;
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +21,7 @@ public class SparkAppInfoJsonDumper implements AppInfoJsonDumper {
         if (!(config instanceof SparkJobConfig)) {
             throw new JobDumpException("Config is not instance of by.zhuk.bdam.domain.SparkJobConfig");
         }
-        HttpClient client = new HttpClient(new MultiThreadedHttpConnectionManager());
+        HttpClient client = new HttpClient();
         GetMethod methodMainApp = new GetMethod(((SparkJobConfig) config).getHistoryServerAddress() + "/api/v1/applications/" + appId);
         GetMethod methodStages = new GetMethod(((SparkJobConfig) config).getHistoryServerAddress() + "/api/v1/applications/" + appId + "/stages");
         JSONObject result = new JSONObject();
@@ -43,7 +42,7 @@ public class SparkAppInfoJsonDumper implements AppInfoJsonDumper {
 
             for (Object stageObject : stages) {
                 JSONObject stage = (JSONObject) stageObject;
-                GetMethod methodMetric = new GetMethod("http://10.6.87.200:18081/api/v1/applications/"
+                GetMethod methodMetric = new GetMethod(((SparkJobConfig) config).getHistoryServerAddress() + "/api/v1/applications/"
                         + appId + "/stages/" + stage.getInt("stageId") + "/" + stage.getInt("attemptId") + "/taskSummary?quantiles=0.5,1");
                 client.executeMethod(methodMetric);
                 JSONObject metric = new JSONObject(new JSONTokener(new InputStreamReader(methodMetric.getResponseBodyAsStream())));

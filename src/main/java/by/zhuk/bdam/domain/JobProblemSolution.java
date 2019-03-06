@@ -7,10 +7,10 @@ import java.util.Map;
 
 public class JobProblemSolution {
     private List<String> descriptions;
-    private Map<String,String> config;
+    private Map<String, String> config;
 
     public JobProblemSolution() {
-        descriptions= new ArrayList<>();
+        descriptions = new ArrayList<>();
         config = new HashMap<>();
     }
 

@@ -11,11 +11,12 @@ import by.zhuk.bdam.parser.SparkConfigParser;
 import by.zhuk.bdam.problemsolver.core.JsonAppProblemSolver;
 import by.zhuk.bdam.problemsolver.spark.SparkJsonAppProblemSolver;
 import by.zhuk.bdam.reconfiger.JobReconfiguer;
-import by.zhuk.bdam.reconfiger.Reconfiguer;
 import by.zhuk.bdam.reconfiger.SparkJobReconfiguer;
+import by.zhuk.bdam.serializer.JobConfigJsonSerializer;
+import by.zhuk.bdam.serializer.SparkJobJsonSerializer;
 
 public enum AppType {
-    SPARK(new SparkConfigParser(), new SparkJobExecutor(), new SparkAppInfoJsonDumper(), new SparkAppJsonAnalyst(), new SparkJsonAppProblemSolver(), new SparkJobReconfiguer());
+    SPARK(new SparkConfigParser(), new SparkJobExecutor(), new SparkAppInfoJsonDumper(), new SparkAppJsonAnalyst(), new SparkJsonAppProblemSolver(), new SparkJobReconfiguer(),new SparkJobJsonSerializer());
 
     private ConfigParser parse;
     private JobExecutor executor;
@@ -23,6 +24,7 @@ public enum AppType {
     private JsonAnalyst analyst;
     private JsonAppProblemSolver problemSolver;
     private JobReconfiguer reconfiguer;
+    private JobConfigJsonSerializer jobConfigJsonSerializer;
 
     public static boolean contains(String test) {
 
@@ -35,13 +37,14 @@ public enum AppType {
         return false;
     }
 
-    AppType(ConfigParser parse, JobExecutor executor, AppInfoJsonDumper dumper, JsonAnalyst analyst, JsonAppProblemSolver problemSolver, JobReconfiguer reconfiguer) {
+    AppType(ConfigParser parse, JobExecutor executor, AppInfoJsonDumper dumper, JsonAnalyst analyst, JsonAppProblemSolver problemSolver, JobReconfiguer reconfiguer, JobConfigJsonSerializer jobConfigJsonSerializer) {
         this.parse = parse;
         this.executor = executor;
         this.dumper = dumper;
         this.analyst = analyst;
         this.problemSolver = problemSolver;
         this.reconfiguer = reconfiguer;
+        this.jobConfigJsonSerializer = jobConfigJsonSerializer;
     }
 
     public ConfigParser getParse() {
@@ -66,5 +69,9 @@ public enum AppType {
 
     public JobReconfiguer getReconfiguer() {
         return reconfiguer;
+    }
+
+    public JobConfigJsonSerializer getJobConfigJsonSerializer() {
+        return jobConfigJsonSerializer;
     }
 }

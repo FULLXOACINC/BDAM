@@ -2,8 +2,6 @@ package by.zhuk.bdam.sender;
 
 import by.zhuk.bdam.domain.Report;
 
-import java.util.List;
-
 public class HtmlReportSender implements ReportSender {
     private String storePath;
 

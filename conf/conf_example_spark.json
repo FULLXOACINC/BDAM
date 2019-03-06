@@ -6,7 +6,7 @@
   "app_path": "trainfind-1.0-jar-with-dependencies.jar",
   "verbose": true,
   "spark": {
-    "history_server_address": "http://sandbox-hdp.hortonworks.com:18081",
+    "history_server_address": "http://10.6.206.170:18081",
     "java_home": "/usr/java/default",
     "spark_home": "/usr/hdp/current/spark2-client/",
     "master": "local[*]",

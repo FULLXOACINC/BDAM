@@ -1,7 +1,6 @@
 package by.zhuk.bdam.problemsolver.spark;
 
 import by.zhuk.bdam.domain.JobConfig;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
