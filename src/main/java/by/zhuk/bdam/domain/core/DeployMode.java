@@ -1,4 +1,4 @@
-package by.zhuk.bdam.domain;
+package by.zhuk.bdam.domain.core;
 
 public enum DeployMode {
     CLIENT, CLUSTER

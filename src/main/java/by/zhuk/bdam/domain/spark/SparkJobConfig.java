@@ -1,4 +1,7 @@
-package by.zhuk.bdam.domain;
+package by.zhuk.bdam.domain.spark;
+
+import by.zhuk.bdam.domain.core.DeployMode;
+import by.zhuk.bdam.domain.core.JobConfig;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,7 +1,7 @@
 package by.zhuk.bdam.infodumper;
 
-import by.zhuk.bdam.domain.JobConfig;
-import by.zhuk.bdam.domain.SparkJobConfig;
+import by.zhuk.bdam.domain.core.JobConfig;
+import by.zhuk.bdam.domain.spark.SparkJobConfig;
 import by.zhuk.bdam.exception.JobDumpException;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -19,7 +19,7 @@ public class SparkAppInfoJsonDumper implements AppInfoJsonDumper {
     @Override
     public JSONObject dump(String appId, JobConfig config) throws JobDumpException {
         if (!(config instanceof SparkJobConfig)) {
-            throw new JobDumpException("Config is not instance of by.zhuk.bdam.domain.SparkJobConfig");
+            throw new JobDumpException("Config is not instance of by.zhuk.bdam.domain.spark.SparkJobConfig");
         }
         HttpClient client = new HttpClient();
         GetMethod methodMainApp = new GetMethod(((SparkJobConfig) config).getHistoryServerAddress() + "/api/v1/applications/" + appId);

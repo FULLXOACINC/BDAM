@@ -1,9 +1,10 @@
 package by.zhuk.bdam.starter;
 
 import by.zhuk.bdam.analyst.core.JsonAnalyst;
-import by.zhuk.bdam.domain.AppType;
-import by.zhuk.bdam.domain.JobConfig;
-import by.zhuk.bdam.domain.JobProblemSolution;
+import by.zhuk.bdam.domain.core.AppType;
+import by.zhuk.bdam.domain.core.JobConfig;
+import by.zhuk.bdam.domain.core.JobProblemSolution;
+import by.zhuk.bdam.domain.spark.SparkReport;
 import by.zhuk.bdam.exception.JobDumpException;
 import by.zhuk.bdam.exception.JobExecuteException;
 import by.zhuk.bdam.exception.ParseConfigException;
@@ -24,42 +25,44 @@ public class Starter {
 
 
     public static void main(String[] args) {
-        if (args.length != 3) {
-            LOGGER.error("Invalid args count: must set up mode, config file and new config file name");
-            return;
-        }
-        String type = args[0];
-        String configFile = args[1];
-        String newConfigFile = args[2];
-        if (AppType.contains(type)) {
-            LOGGER.error("Not found application type");
-            return;
-        }
-
-        AppType appType = AppType.valueOf(type.toUpperCase());
-        ConfigParser parser = appType.getParse();
-        JobExecutor executor = appType.getExecutor();
-        JobReconfiguer reconfiguer = appType.getReconfiguer();
-        AppInfoJsonDumper dumper = appType.getDumper();
-        JsonAnalyst analyst = appType.getAnalyst();
-        JsonAppProblemSolver problemSolver = appType.getProblemSolver();
-        JobConfigJsonSerializer jobConfigJsonSerializer = appType.getJobConfigJsonSerializer();
-        JSONObjectFileWriter writer = new JSONObjectFileWriter();
-        try {
-            JobConfig config = parser.parse(configFile);
-            String appId = executor.executeJob(config);
-            JSONObject metric = dumper.dump(appId, config);
-            JSONObject analysis = analyst.analyze(metric);
-            JobProblemSolution solution = problemSolver.solveProblem(analysis, config);
-            if (!solution.getConfig().isEmpty()) {
-                reconfiguer.reconfigure(solution, config);
-                JSONObject json = jobConfigJsonSerializer.serialize(config);
-                writer.write(json, newConfigFile);
-            }
-
-        } catch (ParseConfigException | JobDumpException | WriteFileException | JobExecuteException e) {
-            LOGGER.error("Error", e);
-        }
+        SparkReport report = new SparkReport();
+        System.out.println(report.toReadableString());
+//        if (args.length != 3) {
+//            LOGGER.error("Invalid args count: must set up mode, config file and new config file name");
+//            return;
+//        }
+//        String type = args[0];
+//        String configFile = args[1];
+//        String newConfigFile = args[2];
+//        if (AppType.contains(type)) {
+//            LOGGER.error("Not found application type");
+//            return;
+//        }
+//
+//        AppType appType = AppType.valueOf(type.toUpperCase());
+//        ConfigParser parser = appType.getParse();
+//        JobExecutor executor = appType.getExecutor();
+//        JobReconfiguer reconfiguer = appType.getReconfiguer();
+//        AppInfoJsonDumper dumper = appType.getDumper();
+//        JsonAnalyst analyst = appType.getAnalyst();
+//        JsonAppProblemSolver problemSolver = appType.getProblemSolver();
+//        JobConfigJsonSerializer jobConfigJsonSerializer = appType.getJobConfigJsonSerializer();
+//        JSONObjectFileWriter writer = new JSONObjectFileWriter();
+//        try {
+//            JobConfig config = parser.parse(configFile);
+//            String appId = executor.executeJob(config);
+//            JSONObject metric = dumper.dump(appId, config);
+//            JSONObject analysis = analyst.analyze(metric);
+//            JobProblemSolution solution = problemSolver.solveProblem(analysis, config);
+//            if (!solution.getConfig().isEmpty()) {
+//                reconfiguer.reconfigure(solution, config);
+//                JSONObject json = jobConfigJsonSerializer.serialize(config);
+//                writer.write(json, newConfigFile);
+//            }
+//
+//        } catch (ParseConfigException | JobDumpException | WriteFileException | JobExecuteException e) {
+//            LOGGER.error("Error", e);
+//        }
     }
 
 }

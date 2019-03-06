@@ -1,4 +1,4 @@
-package by.zhuk.bdam.domain;
+package by.zhuk.bdam.domain.core;
 
 import by.zhuk.bdam.analyst.core.JsonAnalyst;
 import by.zhuk.bdam.analyst.spark.app.SparkAppJsonAnalyst;

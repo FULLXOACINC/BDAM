@@ -1,8 +1,8 @@
 package by.zhuk.bdam.parser;
 
-import by.zhuk.bdam.domain.DeployMode;
-import by.zhuk.bdam.domain.JobConfig;
-import by.zhuk.bdam.domain.SparkJobConfig;
+import by.zhuk.bdam.domain.core.DeployMode;
+import by.zhuk.bdam.domain.core.JobConfig;
+import by.zhuk.bdam.domain.spark.SparkJobConfig;
 import by.zhuk.bdam.exception.ParseConfigException;
 import org.json.JSONObject;
 

@@ -1,7 +1,7 @@
 package by.zhuk.bdam.serializer;
 
-import by.zhuk.bdam.domain.JobConfig;
-import by.zhuk.bdam.domain.SparkJobConfig;
+import by.zhuk.bdam.domain.core.JobConfig;
+import by.zhuk.bdam.domain.spark.SparkJobConfig;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

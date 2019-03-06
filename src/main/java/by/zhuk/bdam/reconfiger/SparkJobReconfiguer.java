@@ -1,8 +1,8 @@
 package by.zhuk.bdam.reconfiger;
 
-import by.zhuk.bdam.domain.JobConfig;
-import by.zhuk.bdam.domain.JobProblemSolution;
-import by.zhuk.bdam.domain.SparkJobConfig;
+import by.zhuk.bdam.domain.core.JobConfig;
+import by.zhuk.bdam.domain.core.JobProblemSolution;
+import by.zhuk.bdam.domain.spark.SparkJobConfig;
 
 public class SparkJobReconfiguer implements JobReconfiguer {
     @Override

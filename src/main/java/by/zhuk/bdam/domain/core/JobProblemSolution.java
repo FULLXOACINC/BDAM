@@ -1,4 +1,4 @@
-package by.zhuk.bdam.domain;
+package by.zhuk.bdam.domain.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;

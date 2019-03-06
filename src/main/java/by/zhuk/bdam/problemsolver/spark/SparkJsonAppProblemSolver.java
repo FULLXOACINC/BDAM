@@ -1,7 +1,7 @@
 package by.zhuk.bdam.problemsolver.spark;
 
-import by.zhuk.bdam.domain.JobConfig;
-import by.zhuk.bdam.domain.JobProblemSolution;
+import by.zhuk.bdam.domain.core.JobConfig;
+import by.zhuk.bdam.domain.core.JobProblemSolution;
 import by.zhuk.bdam.problemsolver.core.JsonAppProblemSolver;
 import org.json.JSONArray;
 import org.json.JSONObject;
