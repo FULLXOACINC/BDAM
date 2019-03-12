@@ -9,7 +9,7 @@ public class SparkShuffleReadProblemSolver implements ProblemSolver {
 
     @Override
     public String findTextSolution(JobConfig config) {
-        return "gcc solution";
+        return "ShuffleRead solution";
     }
 
     @Override

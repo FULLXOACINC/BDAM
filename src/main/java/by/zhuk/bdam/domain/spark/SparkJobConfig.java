@@ -13,7 +13,6 @@ public class SparkJobConfig extends JobConfig {
     private String javaHome;
     private String sparkHome;
     private String historyServerAddress;
-
     private Map<String, String> sparkParams;
 
     public SparkJobConfig() {
@@ -74,6 +73,19 @@ public class SparkJobConfig extends JobConfig {
 
     public void setHistoryServerAddress(String historyServerAddress) {
         this.historyServerAddress = historyServerAddress;
+    }
+
+    @Override
+    public Map<String, String> toMapConfig() {
+        HashMap<String,String> map = new HashMap<>(super.toMapConfig());
+        map.put("master",master);
+        map.put("history_server_address",historyServerAddress);
+        map.put("spark_home",sparkHome);
+        map.put("java_home",javaHome);
+        map.put("class",mainClass);
+        map.put("mode",mode.name().toLowerCase());
+        map.putAll(sparkParams);
+        return map;
     }
 
     @Override

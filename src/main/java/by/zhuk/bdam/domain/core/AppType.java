@@ -4,6 +4,8 @@ import by.zhuk.bdam.analyst.core.JsonAnalyst;
 import by.zhuk.bdam.analyst.spark.app.SparkAppJsonAnalyst;
 import by.zhuk.bdam.executor.JobExecutor;
 import by.zhuk.bdam.executor.SparkJobExecutor;
+import by.zhuk.bdam.genirator.JsonJobProblemReportGenerator;
+import by.zhuk.bdam.genirator.SparkJsonJobProblemReportGenerator;
 import by.zhuk.bdam.infodumper.AppInfoJsonDumper;
 import by.zhuk.bdam.infodumper.SparkAppInfoJsonDumper;
 import by.zhuk.bdam.parser.ConfigParser;
@@ -16,7 +18,14 @@ import by.zhuk.bdam.serializer.JobConfigJsonSerializer;
 import by.zhuk.bdam.serializer.SparkJobJsonSerializer;
 
 public enum AppType {
-    SPARK(new SparkConfigParser(), new SparkJobExecutor(), new SparkAppInfoJsonDumper(), new SparkAppJsonAnalyst(), new SparkJsonAppProblemSolver(), new SparkJobReconfiguer(),new SparkJobJsonSerializer());
+    SPARK(new SparkConfigParser(),
+            new SparkJobExecutor(),
+            new SparkAppInfoJsonDumper(),
+            new SparkAppJsonAnalyst(),
+            new SparkJsonAppProblemSolver(),
+            new SparkJobReconfiguer(),
+            new SparkJobJsonSerializer(),
+            new SparkJsonJobProblemReportGenerator());
 
     private ConfigParser parse;
     private JobExecutor executor;
@@ -25,6 +34,7 @@ public enum AppType {
     private JsonAppProblemSolver problemSolver;
     private JobReconfiguer reconfiguer;
     private JobConfigJsonSerializer jobConfigJsonSerializer;
+    private JsonJobProblemReportGenerator jsonJobProblemReportGenirator;
 
     public static boolean contains(String test) {
 
@@ -37,7 +47,7 @@ public enum AppType {
         return false;
     }
 
-    AppType(ConfigParser parse, JobExecutor executor, AppInfoJsonDumper dumper, JsonAnalyst analyst, JsonAppProblemSolver problemSolver, JobReconfiguer reconfiguer, JobConfigJsonSerializer jobConfigJsonSerializer) {
+    AppType(ConfigParser parse, JobExecutor executor, AppInfoJsonDumper dumper, JsonAnalyst analyst, JsonAppProblemSolver problemSolver, JobReconfiguer reconfiguer, JobConfigJsonSerializer jobConfigJsonSerializer, JsonJobProblemReportGenerator jsonJobProblemReportGenirator) {
         this.parse = parse;
         this.executor = executor;
         this.dumper = dumper;
@@ -45,6 +55,11 @@ public enum AppType {
         this.problemSolver = problemSolver;
         this.reconfiguer = reconfiguer;
         this.jobConfigJsonSerializer = jobConfigJsonSerializer;
+        this.jsonJobProblemReportGenirator = jsonJobProblemReportGenirator;
+    }
+
+    public JsonJobProblemReportGenerator getJsonJobProblemReportGenirator() {
+        return jsonJobProblemReportGenirator;
     }
 
     public ConfigParser getParse() {

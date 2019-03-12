@@ -1,25 +1,22 @@
 package by.zhuk.bdam.domain.core;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class JobProblemSolution {
-    private List<String> descriptions;
+    private String description;
     private Map<String, String> config;
 
     public JobProblemSolution() {
-        descriptions = new ArrayList<>();
         config = new HashMap<>();
     }
 
-    public List<String> getDescriptions() {
-        return descriptions;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriptions(List<String> descriptions) {
-        this.descriptions = descriptions;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Map<String, String> getConfig() {
@@ -33,7 +30,7 @@ public class JobProblemSolution {
     @Override
     public String toString() {
         return "JobProblemSolution{" +
-                "descriptions=" + descriptions +
+                "description=" + description +
                 ", config=" + config +
                 '}';
     }

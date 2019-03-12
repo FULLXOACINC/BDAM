@@ -9,7 +9,7 @@ public class SparkGcProblemSolver implements ProblemSolver {
 
     @Override
     public String findTextSolution(JobConfig config) {
-        return "gcc solution";
+        return "Gc solution";
     }
 
     @Override

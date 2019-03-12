@@ -43,7 +43,7 @@ public class SparkAppInfoJsonDumper implements AppInfoJsonDumper {
             for (Object stageObject : stages) {
                 JSONObject stage = (JSONObject) stageObject;
                 GetMethod methodMetric = new GetMethod(((SparkJobConfig) config).getHistoryServerAddress() + "/api/v1/applications/"
-                        + appId + "/stages/" + stage.getInt("stageId") + "/" + stage.getInt("attemptId") + "/taskSummary?quantiles=0.5,1");
+                        + appId + "/stages/" + stage.getInt("stageId") + "/" + stage.getInt("attemptId") + "/taskSummary?quantiles=0,0.5,1");
                 client.executeMethod(methodMetric);
                 JSONObject metric = new JSONObject(new JSONTokener(new InputStreamReader(methodMetric.getResponseBodyAsStream())));
 

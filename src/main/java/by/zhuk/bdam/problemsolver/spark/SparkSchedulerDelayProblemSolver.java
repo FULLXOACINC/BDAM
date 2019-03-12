@@ -9,7 +9,7 @@ public class SparkSchedulerDelayProblemSolver implements ProblemSolver {
 
     @Override
     public String findTextSolution(JobConfig config) {
-        return "gcc solution";
+        return "SchedulerDelay solution";
     }
 
     @Override

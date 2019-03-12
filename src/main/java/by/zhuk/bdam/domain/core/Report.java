@@ -1,10 +1,6 @@
 package by.zhuk.bdam.domain.core;
 
-import by.zhuk.bdam.util.ByteSizeHumanReadableConverter;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -12,12 +8,9 @@ public class Report {
     private String appName;
     private Map<String, String> configs;
     private long executingTime;
-    private double dataProcessingSize;
-    private List<String> problems;
     private Map<String, String> solutionMap;
 
     public Report() {
-        problems = new ArrayList<>();
         configs = new HashMap<>();
         solutionMap = new HashMap<>();
     }
@@ -46,21 +39,6 @@ public class Report {
         this.executingTime = executingTime;
     }
 
-    public double getDataProcessingSize() {
-        return dataProcessingSize;
-    }
-
-    public void setDataProcessingSize(double dataProcessingSize) {
-        this.dataProcessingSize = dataProcessingSize;
-    }
-
-    public List<String> getProblems() {
-        return problems;
-    }
-
-    public void setProblems(List<String> problems) {
-        this.problems = problems;
-    }
 
     public Map<String, String> getSolutionMap() {
         return solutionMap;
@@ -79,7 +57,6 @@ public class Report {
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(executingTime))
         );
         buffer.append("Execution time : ").append(time).append("\n");
-        buffer.append("Data processing size : ").append(ByteSizeHumanReadableConverter.format(dataProcessingSize, 3)).append("\n");
         buffer.append("--------------------").append("\n");
         buffer.append("Config : ").append("\n");
         for (Map.Entry<String, String> entry : configs.entrySet()) {
@@ -87,12 +64,10 @@ public class Report {
         }
         buffer.append("--------------------").append("\n");
         buffer.append("Problems : ").append("\n");
-        for (String problem : problems) {
-            buffer.append(problem).append("\n");
-            if(solutionMap.containsKey(problem)){
-                buffer.append("\n");
-                buffer.append("Solution ").append(" : ").append(solutionMap.get(problem)).append("\n");
-            }
+        for (Map.Entry<String, String> entry : solutionMap.entrySet()) {
+            buffer.append(entry.getKey()).append("\n");
+            buffer.append("Solution ").append(" : ").append(entry.getValue()).append("\n");
+
             buffer.append("\n");
         }
         return buffer.toString();
@@ -104,8 +79,6 @@ public class Report {
                 "appName='" + appName + '\'' +
                 ", configs=" + configs +
                 ", executingTime=" + executingTime +
-                ", dataProcessingSize=" + dataProcessingSize +
-                ", problems=" + problems +
                 ", solutionMap=" + solutionMap +
                 '}';
     }

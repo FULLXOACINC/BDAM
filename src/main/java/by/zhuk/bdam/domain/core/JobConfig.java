@@ -1,7 +1,9 @@
 package by.zhuk.bdam.domain.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class JobConfig {
     private String appPath;
@@ -46,6 +48,14 @@ public class JobConfig {
         isVerbose = verbose;
     }
 
+    public Map<String,String> toMapConfig(){
+        Map<String,String> map = new HashMap<>();
+        map.put("app_name",appName);
+        map.put("app_path",appPath);
+        map.put("app_args",argsList.toString());
+        map.put("verbose", String.valueOf(isVerbose));
+        return map;
+    }
     @Override
     public String toString() {
         return "JobConfig{" +

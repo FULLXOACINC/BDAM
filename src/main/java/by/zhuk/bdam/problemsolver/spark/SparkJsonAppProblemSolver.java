@@ -25,8 +25,8 @@ public class SparkJsonAppProblemSolver implements JsonAppProblemSolver {
     }
 
     @Override
-    public JobProblemSolution solveProblem(JSONObject jsonObject, JobConfig config) {
-        JobProblemSolution solution = new JobProblemSolution();
+    public Map<String,JobProblemSolution> solveProblems(JSONObject jsonObject, JobConfig config) {
+        Map<String,JobProblemSolution> solutionsMap = new HashMap<>();
 
         Set<String> problems = new HashSet<>();
         JSONArray array = jsonObject.getJSONArray("problems");
@@ -40,11 +40,14 @@ public class SparkJsonAppProblemSolver implements JsonAppProblemSolver {
         for (String problem : problems) {
             if (solutionMap.containsKey(problem)) {
                 ProblemSolver solver = solutionMap.get(problem);
-                solution.getDescriptions().add(solver.findTextSolution(config));
+                JobProblemSolution solution = new JobProblemSolution();
+
+                solution.setDescription(solver.findTextSolution(config));
                 solution.getConfig().putAll(solver.findConfigSolution(config));
+                solutionsMap.put(problem,solution);
             }
 
         }
-        return solution;
+        return solutionsMap;
     }
 }
