@@ -2,14 +2,16 @@ package by.zhuk.bdam.problemsolver.spark;
 
 import by.zhuk.bdam.domain.core.JobConfig;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SparkGettingResultProblemSolver implements ProblemSolver {
 
     @Override
-    public String findTextSolution(JobConfig config) {
-        return "GettingResult solution";
+    public List<String> findTextSolutions(JobConfig config) {
+        return Collections.singletonList("GettingResult solution");
     }
 
     @Override

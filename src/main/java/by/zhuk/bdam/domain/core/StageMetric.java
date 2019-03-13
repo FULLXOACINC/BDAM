@@ -1,13 +1,13 @@
 package by.zhuk.bdam.domain.core;
 
 public class StageMetric {
-    private double duration ;
+    private long duration ;
 
-    public double getDuration() {
+    public long getDuration() {
         return duration;
     }
 
-    public void setDuration(double duration) {
+    public void setDuration(long duration) {
         this.duration = duration;
     }
 }

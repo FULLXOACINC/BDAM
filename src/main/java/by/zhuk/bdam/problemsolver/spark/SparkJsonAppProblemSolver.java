@@ -42,7 +42,7 @@ public class SparkJsonAppProblemSolver implements JsonAppProblemSolver {
                 ProblemSolver solver = solutionMap.get(problem);
                 JobProblemSolution solution = new JobProblemSolution();
 
-                solution.setDescription(solver.findTextSolution(config));
+                solution.setDescriptions(solver.findTextSolutions(config));
                 solution.getConfig().putAll(solver.findConfigSolution(config));
                 solutionsMap.put(problem,solution);
             }

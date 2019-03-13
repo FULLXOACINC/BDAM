@@ -1,22 +1,23 @@
 package by.zhuk.bdam.domain.core;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JobProblemSolution {
-    private String description;
+    private List<String> descriptions;
     private Map<String, String> config;
 
     public JobProblemSolution() {
         config = new HashMap<>();
     }
 
-    public String getDescription() {
-        return description;
+    public List<String> getDescriptions() {
+        return descriptions;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptions(List<String> descriptions) {
+        this.descriptions = descriptions;
     }
 
     public Map<String, String> getConfig() {
@@ -30,7 +31,7 @@ public class JobProblemSolution {
     @Override
     public String toString() {
         return "JobProblemSolution{" +
-                "description=" + description +
+                "descriptions=" + descriptions +
                 ", config=" + config +
                 '}';
     }

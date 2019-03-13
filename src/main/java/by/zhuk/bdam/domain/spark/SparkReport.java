@@ -4,6 +4,7 @@ import by.zhuk.bdam.domain.core.Report;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class SparkReport extends Report {
     private Map<Long, SparkStageMetric> stageMetricMap;
@@ -27,7 +28,13 @@ public class SparkReport extends Report {
         buffer.append("Stage metrics:\n");
         for(Map.Entry<Long, SparkStageMetric> entry : stageMetricMap.entrySet()){
             buffer.append("Stage :").append(entry.getKey()).append("\n");
-            buffer.append("Duration :").append(entry.getValue().getDuration()).append("\n");
+
+            String time = String.format("%d min, %d sec",
+                    TimeUnit.MILLISECONDS.toMinutes(entry.getValue().getDuration()),
+                    TimeUnit.MILLISECONDS.toSeconds(entry.getValue().getDuration()) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(entry.getValue().getDuration()))
+            );
+            buffer.append("Duration :").append(time).append("\n");
             buffer.append(entry.getValue().toReadableString()).append("\n");
         }
         return buffer.toString();

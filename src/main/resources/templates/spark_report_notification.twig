@@ -1,0 +1,544 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body lang="EN-US" link="#0563C1" vlink="#954F72">
+<table border="0" cellspacing="0" cellpadding="0" width="600"
+       style="width:100%;background:#464547;border-collapse:collapse">
+    <tbody>
+    <tr>
+        <td width="330" nowrap="" style="width:247.5pt;padding:0in 0in 0in 7.5pt;word-wrap:normal">
+            <b><span style="font-size:16.5pt;font-family:&quot;Arial Bold&quot;;color:white;">API Dumper Job Notification</span></b>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" align="left" width="0" style="width:100%;padding: 7pt">
+    <tbody>
+    <tr>
+        <td valign="top" style="background:#F2F2F2;padding:5pt 2%; width: 17%; min-width: 107px">
+            <b><span
+                    style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#464547">Application name</span></b>
+        </td>
+        <td valign="top" style="background:#F2F2F2;padding:5pt 2%; width: 77%">
+            <span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:black">{{ report.appName }}</span>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" style="background:white;padding:5pt 2%; width: 17%; min-width: 107px">
+            <b><span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#464547">Application execution time</span></b>
+        </td>
+        <td valign="top" style="background:white;padding:5pt 2%; width: 77%">
+            <span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:black">{{ report.executingTime/1000 }} sec</span>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" style="background:#F2F2F2;padding:5pt 2%; width: 17%; min-width: 107px">
+            <b><span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#464547">Config</span></b>
+        </td>
+        <td valign="top" style="background:#F2F2F2;padding:5pt 2%; width: 77%">
+            <span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:black"></span>
+        </td>
+    </tr>
+    {% for key, value in report.configs %}
+
+    <tr>
+        <td valign="top" style="background:white;padding:5pt 2%; width: 17%; min-width: 107px">
+            <b><span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#464547">{{ key }}</span></b>
+        </td>
+
+        <td valign="top" style="background:white;padding:5pt 2%; width: 77%">
+            <span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:black">{{ value }}</span>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+<table border=0 cellspacing=0 cellpadding=0 align=left width="100%">
+    <tr>
+        <td style='width: 12%;min-width: 90px;border:solid #929292 1.5pt;border-right:none;background:#F2F2F2;padding:3pt 5pt; '>
+            <strong><span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Problem</span></strong>
+        </td>
+        <td style='width: 10%;border:solid #929292 1.5pt;background:#F2F2F2;padding:3pt 2% 3pt 5pt; '>
+            <strong><span
+                    style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Solutions</span></strong>
+        </td>
+    </tr>
+
+    {% for key, solutionList in report.solutionMap %}
+        <tr>
+            <td rowspan="{{ solutionList|length  }}" valign="top" style="border:solid #929292 1.5pt;border-top:none;border-right:none;background:white;padding:5pt 2%; width: 17%; min-width: 107px">
+                <b><span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#464547">{{ key }}</span></b>
+            </td>
+            <td valign="top" style="border:solid #929292 1.5pt;border-top:none;background:white;padding:5pt 2%; width: 17%; min-width: 107px">
+                <b><span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#464547">{{ solutionList[0] }}</span></b>
+            </td>
+        </tr>
+        {% for solution in solutionList|slice(1, solutionList|length -1 ) %}
+           <tr>
+               <td valign="top" style="border:solid #929292 1.5pt;border-top:none;background:white;padding:5pt 2%; width: 17%; min-width: 107px">
+                   <b><span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#464547">{{ solution }}</span></b>
+               </td>
+           </tr>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+
+
+</table>
+
+<table border=0 cellspacing=0 cellpadding=0 align=left width="100%"
+       style='width:100.0%;margin-top:3.5pt;margin-bottom:3.5pt;BORDER-SPACING: 0'>
+
+    {% for key, value in report.stageMetricMap %}
+    <tr style='border-left:solid #929292 1.5pt;border-right:solid #929292 1.5pt'>
+        <td style='background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Stage: {{ key }}</span>
+        </td>
+    </tr>
+    <tr style='border-left:solid #929292 1.5pt;border-right:solid #929292 1.5pt'>
+        <td style='background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Duration: {{ value.duration }} ms</span>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"
+            style='width: 7%; min-width: 66px;border:solid #929292 1.5pt;border-right:none;background:#F2F2F2;padding:3pt 5pt 3pt 2%; '>
+            <strong><span
+                    style='width: 15%;font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Metric</span></strong>
+        </td>
+        <td style='width: 12%;min-width: 90px;border:solid #929292 1.5pt;border-right:none;background:#F2F2F2;padding:3pt 5pt; '>
+            <strong><span
+                    style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Min</span></strong>
+        </td>
+        <td style='width: 12%;min-width: 90px;border:solid #929292 1.5pt;border-right:none;background:#F2F2F2;padding:3pt 5pt; '>
+            <strong><span
+                    style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Mean</span></strong>
+        </td>
+        <td style='width: 10%;border:solid #929292 1.5pt;background:#F2F2F2;padding:3pt 2% 3pt 5pt; '>
+            <strong><span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Max</span></strong>
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="12"
+            style='width: 15%;border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'> </span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Executor deserialize time</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.executorDeserializeTime[0] }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.executorDeserializeTime[1] }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.executorDeserializeTime[2] }} ms</span>
+        </td>
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Executor deserialize CPU time</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.executorDeserializeCpuTime[0] / 1000000 }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.executorDeserializeCpuTime[1] / 1000000}} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.executorDeserializeCpuTime[2] / 1000000}} ms</span>
+        </td>
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Executor run time</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.executorRunTime[0] }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.executorRunTime[1] }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.executorRunTime[2] }} ms</span>
+        </td>
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Executor CPU time</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.executorCpuTime[0] / 1000000 }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.executorCpuTime[1] / 1000000 }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.executorCpuTime[2] / 1000000 }} ms</span>
+        </td>
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Result size</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.resultSize[0] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.resultSize[1] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.resultSize[2] }} byte</span>
+        </td>
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>JVM GC Time</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.jvmGcTime[0] }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.jvmGcTime[1] }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.jvmGcTime[2] }} ms</span>
+        </td>
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Result serialization time</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.resultSerializationTime[0] }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.resultSerializationTime[1] }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.resultSerializationTime[2] }} ms</span>
+        </td>
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Getting result time</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.gettingResultTime[0] }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.gettingResultTime[1] }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.gettingResultTime[2] }} ms</span>
+        </td>
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Scheduler delay</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.schedulerDelay[0] }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.schedulerDelay[1] }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.schedulerDelay[2] }} ms</span>
+        </td>
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Peak execution memory</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.peakExecutionMemory[0] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.peakExecutionMemory[1] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.peakExecutionMemory[2] }} byte</span>
+        </td>
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Memory bytes spilled</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.memoryBytesSpilled[0] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.memoryBytesSpilled[1] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.memoryBytesSpilled[2] }} byte</span>
+        </td>
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Disk bytes spilled</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.diskBytesSpilled[0] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.diskBytesSpilled[1] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.diskBytesSpilled[2] }} byte</span>
+        </td>
+    </tr>
+
+    <tr>
+        <td rowspan="2"
+            style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='width: 15%;font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Input metrics</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Bytes read</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.inputMetricsBytesRead[0] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.inputMetricsBytesRead[1] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.inputMetricsBytesRead[2] }} byte</span>
+        </td>
+
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Records read</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.inputMetricsRecordsRead[0] }}</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.inputMetricsRecordsRead[1] }}</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.inputMetricsRecordsRead[2] }}</span>
+        </td>
+    </tr>
+
+    <tr>
+        <td rowspan="2"
+            style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='width: 15%;font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Output metrics</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Bytes written</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.outputMetricsBytesWritten[0] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.outputMetricsBytesWritten[1] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.outputMetricsBytesWritten[2] }} byte</span>
+        </td>
+
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Records written</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.outputMetricsRecordsWritten[0] }}</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.outputMetricsRecordsWritten[1] }}</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.outputMetricsRecordsWritten[2] }}</span>
+        </td>
+    </tr>
+
+    <tr>
+        <td rowspan="8"
+            style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='width: 15%;font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Shuffle read metrics</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Read bytes</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsReadBytes[0] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsReadBytes[1] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsReadBytes[2] }} byte</span>
+        </td>
+
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Read records</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsReadRecords[0] }}</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsReadRecords[1] }}</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsReadRecords[2] }}</span>
+        </td>
+
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Remote blocks fetched</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsRemoteBlocksFetched[0] }}</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsRemoteBlocksFetched[1] }}</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsRemoteBlocksFetched[2] }}</span>
+        </td>
+
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Local blocks fetched</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsLocalBlocksFetched[0] }}</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsLocalBlocksFetched[1] }}</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsLocalBlocksFetched[2] }}</span>
+        </td>
+
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Fetch wait time</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsFetchWaitTime[0] }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsFetchWaitTime[1] }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsFetchWaitTime[2] }} ms</span>
+        </td>
+
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Remote bytes read</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsRemoteBytesRead[0] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsRemoteBytesRead[1] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsRemoteBytesRead[2] }} byte</span>
+        </td>
+
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Remote bytes read to disk</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsRemoteBytesReadToDisk[0] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsRemoteBytesReadToDisk[1] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsRemoteBytesReadToDisk[2] }} byte</span>
+        </td>
+
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>TotalBlocksFetched</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsTotalBlocksFetched[0] }}</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsTotalBlocksFetched[1] }}</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleReadMetricsTotalBlocksFetched[2] }}</span>
+        </td>
+
+    </tr>
+
+    <tr>
+        <td rowspan="3"
+            style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='width: 15%;font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Shuffle write metrics</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Write bytes</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleWriteMetricsWriteBytes[0] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleWriteMetricsWriteBytes[1] }} byte</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleWriteMetricsWriteBytes[2] }} byte</span>
+        </td>
+
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Write records</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleWriteMetricsWriteRecords[0] }}</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleWriteMetricsWriteRecords[1] }}</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleWriteMetricsWriteRecords[2] }}</span>
+        </td>
+
+    </tr>
+    <tr>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt 5pt 2%; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>Write time</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleWriteMetricsWriteTime[0] / 1000000 }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-right:none;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleWriteMetricsWriteTime[1] / 1000000 }} ms</span>
+        </td>
+        <td style='border:solid #929292 1.5pt;border-top:none;background:{{ background }};padding:5pt 5pt; '>
+            <span style='font-size:10.5pt;font-family:"Arial",sans-serif;color:#464547'>{{ value.shuffleWriteMetricsWriteTime[2] / 1000000 }} ms</span>
+        </td>
+
+    </tr>
+    {% endfor %}
+
+</table>
+
+</body>
+</html>

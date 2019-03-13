@@ -14,6 +14,8 @@ import by.zhuk.bdam.infodumper.AppInfoJsonDumper;
 import by.zhuk.bdam.parser.ConfigParser;
 import by.zhuk.bdam.problemsolver.core.JsonAppProblemSolver;
 import by.zhuk.bdam.reconfiger.JobReconfiguer;
+import by.zhuk.bdam.sender.ConsoleReportSender;
+import by.zhuk.bdam.sender.HtmlReportSender;
 import by.zhuk.bdam.serializer.JobConfigJsonSerializer;
 import by.zhuk.bdam.writer.JSONObjectFileWriter;
 import org.json.JSONObject;
@@ -56,27 +58,28 @@ public class Starter {
             JSONObject analysis = analyst.analyze(metric);
             Map<String, JobProblemSolution> solutionMap = problemSolver.solveProblems(analysis, config);
 
-            boolean isNeedToReconfig = false;
-            for (Map.Entry<String, JobProblemSolution> entry : solutionMap.entrySet()) {
-                JobProblemSolution solution = entry.getValue();
+            Report report = genirator.generateReport(metric, solutionMap, config);
 
-                if (!solution.getConfig().isEmpty()) {
-                    isNeedToReconfig = true;
-                    break;
-                }
-            }
-
-            if (isNeedToReconfig) {
+            if (isNeedToReconfig(solutionMap)) {
                 reconfiguer.reconfigure(solutionMap, config);
                 JSONObject json = jobConfigJsonSerializer.serialize(config);
                 writer.write(json, newConfigFile);
             }
-            Report report = genirator.generateReport(metric, solutionMap, config);
-            System.out.println(report.toReadableString());
+            new HtmlReportSender("test.html").sendReport(report);
+            new ConsoleReportSender().sendReport(report);
         } catch (ParseConfigException | JobDumpException | WriteFileException e) {
             LOGGER.error("Error", e);
         }
     }
 
+    private static boolean isNeedToReconfig(Map<String, JobProblemSolution> solutionMap) {
+        for (Map.Entry<String, JobProblemSolution> entry : solutionMap.entrySet()) {
+            JobProblemSolution solution = entry.getValue();
+            if (!solution.getConfig().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 

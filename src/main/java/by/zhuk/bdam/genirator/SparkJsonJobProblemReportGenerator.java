@@ -18,7 +18,7 @@ public class SparkJsonJobProblemReportGenerator implements JsonJobProblemReportG
         report.setAppName(config.getAppName());
 
         for (Map.Entry<String, JobProblemSolution> entry : solution.entrySet()) {
-            report.getSolutionMap().put(entry.getKey(), entry.getValue().getDescription());
+            report.getSolutionMap().put(entry.getKey(), entry.getValue().getDescriptions());
         }
         report.setConfigs(config.toMapConfig());
 
@@ -110,7 +110,7 @@ public class SparkJsonJobProblemReportGenerator implements JsonJobProblemReportG
             for (int index =0;index<3;index++){
                 sparkStageMetric.getShuffleWriteMetricsWriteTime().add(String.valueOf(stageMetric.getJSONObject("shuffleWriteMetrics").getJSONArray("writeTime").getLong(index)));
             }
-            sparkStageMetric.setDuration(((JSONObject) stages).getDouble("duration"));
+            sparkStageMetric.setDuration(((JSONObject) stages).getLong("duration"));
             report.getStageMetricMap().put(id,sparkStageMetric);
         }
         return report;

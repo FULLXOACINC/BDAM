@@ -1,6 +1,7 @@
 package by.zhuk.bdam.domain.core;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -8,7 +9,7 @@ public class Report {
     private String appName;
     private Map<String, String> configs;
     private long executingTime;
-    private Map<String, String> solutionMap;
+    private Map<String, List<String>> solutionMap;
 
     public Report() {
         configs = new HashMap<>();
@@ -40,11 +41,11 @@ public class Report {
     }
 
 
-    public Map<String, String> getSolutionMap() {
+    public Map<String, List<String>> getSolutionMap() {
         return solutionMap;
     }
 
-    public void setSolutionMap(Map<String, String> solutionMap) {
+    public void setSolutionMap(Map<String, List<String>> solutionMap) {
         this.solutionMap = solutionMap;
     }
 
@@ -64,10 +65,12 @@ public class Report {
         }
         buffer.append("--------------------").append("\n");
         buffer.append("Problems : ").append("\n");
-        for (Map.Entry<String, String> entry : solutionMap.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : solutionMap.entrySet()) {
             buffer.append(entry.getKey()).append("\n");
-            buffer.append("Solution ").append(" : ").append(entry.getValue()).append("\n");
-
+            buffer.append("Solutions :").append("\n");
+            for (String solution:entry.getValue()) {
+                buffer.append("\t").append(solution).append("\n");
+            }
             buffer.append("\n");
         }
         return buffer.toString();
