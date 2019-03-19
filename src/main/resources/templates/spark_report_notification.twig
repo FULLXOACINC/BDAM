@@ -8,7 +8,7 @@
     <tbody>
     <tr>
         <td width="330" nowrap="" style="width:247.5pt;padding:0in 0in 0in 7.5pt;word-wrap:normal">
-            <b><span style="font-size:16.5pt;font-family:&quot;Arial Bold&quot;;color:white;">API Dumper Job Notification</span></b>
+            <b><span style="font-size:16.5pt;font-family:&quot;Arial Bold&quot;;color:white;">Spark application analysis</span></b>
         </td>
     </tr>
     </tbody>
@@ -70,16 +70,16 @@
     {% for key, solutionList in report.solutionMap %}
         <tr>
             <td rowspan="{{ solutionList|length  }}" valign="top" style="border:solid #929292 1.5pt;border-top:none;border-right:none;background:white;padding:5pt 2%; width: 17%; min-width: 107px">
-                <b><span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#464547">{{ key }}</span></b>
+                <span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#464547">{{ key }}</span>
             </td>
             <td valign="top" style="border:solid #929292 1.5pt;border-top:none;background:white;padding:5pt 2%; width: 17%; min-width: 107px">
-                <b><span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#464547">{{ solutionList[0] }}</span></b>
+                <span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#464547">{{ solutionList[0] }}</span>
             </td>
         </tr>
         {% for solution in solutionList|slice(1, solutionList|length -1 ) %}
            <tr>
                <td valign="top" style="border:solid #929292 1.5pt;border-top:none;background:white;padding:5pt 2%; width: 17%; min-width: 107px">
-                   <b><span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#464547">{{ solution }}</span></b>
+                   <span style="font-size:10.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#464547">{{ solution }}</span>
                </td>
            </tr>
         {% endfor %}

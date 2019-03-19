@@ -1,6 +1,7 @@
-package by.zhuk.bdam.sender;
+package by.zhuk.bdam.sender.core;
 
 import by.zhuk.bdam.domain.core.Report;
+import by.zhuk.bdam.sender.core.ReportSender;
 
 public class ConsoleReportSender implements ReportSender {
 

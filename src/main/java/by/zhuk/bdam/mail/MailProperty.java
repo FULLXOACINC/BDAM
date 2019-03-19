@@ -18,6 +18,10 @@ public class MailProperty {
 
     private static Properties properties = new Properties();
 
+    static {
+        init("mail.properties");
+    }
+
     private MailProperty() {
     }
 
