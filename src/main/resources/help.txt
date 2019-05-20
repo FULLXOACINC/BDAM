@@ -1,0 +1,26 @@
+NAME
+    BigDataAnalysisModule
+SYNOPSIS
+    java -jar BigDataAnalysisModule.jar [--help] [--app_type app_type] [--config_file config_file_path] [--new_config_file new_config_file_path] [--sender_type sender_type]
+DESCRIPTION
+    This model analyzes and optimizes the following BigData technologies:
+        1)Apache Spark
+Example
+    java -jar BigDataAnalysisModule.jar --app_type spark --config_file /root/conf/conf_example_spark.json --new_config_file /root/conf/new_conf_example_spark.json
+OPTIONS
+    --help
+        Show help message about BigDataAnalysisModule
+    --app_type app_type [required parameter]
+        Setup application type:
+            1)Spark
+    --config_file config_file_path [required parameter]
+        Setup path to config file
+    --new_config_file new_config_file_path [required parameter]
+        Setup path to new config file
+    --sender_type sender_type [optional parameter]
+        Setup sender type :
+            1)Console [default]
+            2)Mail
+            3)HTML
+AUTHOR
+    Aliaksandr Zhuk <Aliaksandr_Zhuk1@epam.com>
