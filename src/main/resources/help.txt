@@ -1,7 +1,7 @@
 NAME
     BigDataAnalysisModule
 SYNOPSIS
-    java -jar BigDataAnalysisModule.jar [--help] [--app_type app_type] [--config_file config_file_path] [--new_config_file new_config_file_path] [--sender_type sender_type]
+    java -jar BigDataAnalysisModule.jar [--help] [--app_type app_type] [--config_file config_file_path] [--new_config_file new_config_file_path] [--sender_type sender_type][--is_run_app is_run_app_flug]
 DESCRIPTION
     This model analyzes and optimizes the following BigData technologies:
         1)Apache Spark
@@ -20,7 +20,10 @@ OPTIONS
     --sender_type sender_type [optional parameter]
         Setup sender type :
             1)Console [default]
-            2)Mail
-            3)HTML
+            2)Mail, need setup sink emails
+            3)HTML, need setup path to file
+    --is_run_app is_run_app_flug [optional parameter]
+        Setup is analyse application need to ru, if need, need setup application_id
+
 AUTHOR
     Aliaksandr Zhuk <Aliaksandr_Zhuk1@epam.com>

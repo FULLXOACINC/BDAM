@@ -2,6 +2,7 @@ package by.zhuk.bdam.sender.core;
 
 
 import by.zhuk.bdam.domain.core.AppType;
+import by.zhuk.bdam.exception.CreateSenderException;
 
 public interface ReportSenderFactory {
     enum SenderType {
@@ -17,5 +18,5 @@ public interface ReportSenderFactory {
 
         return false;
     }
-    ReportSender createReportSenderByAppArgs(SenderType type,String[] param);
+    ReportSender createReportSenderByAppArgs(SenderType type,String param) throws CreateSenderException;
 }

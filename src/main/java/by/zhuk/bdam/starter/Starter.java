@@ -18,6 +18,7 @@ import by.zhuk.bdam.sender.core.ReportSenderFactory;
 import by.zhuk.bdam.sender.spark.SparkHtmlReportSender;
 import by.zhuk.bdam.serializer.JobConfigJsonSerializer;
 import by.zhuk.bdam.writer.JSONObjectFileWriter;
+import javafx.beans.binding.BooleanBinding;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,21 +44,25 @@ public class Starter {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CreateSenderException {
         for (String arg : args) {
             if (arg.equals(HELP_PARAMETER)) {
                 showHelpMessage();
                 return;
             }
         }
-        if (args.length < 4) {
-            LOGGER.error("Invalid args count: must set up app type, config file and new config file name, sender report type and param for sender");
-            return;
+        Map<String,String> params=new ParametersParser().parseParameters(args);
+        for (Map.Entry<String,String> entry: params.entrySet()) {
+            if(entry.getValue() == null){
+                LOGGER.error("Invalid args count: need set up "+ entry.getKey());
+                System.exit(-1);
+            }
         }
-        String stringAppType = args[1];
-        String configFile = args[3];
-        String newConfigFile = args[5];
-        String senderType = args[7];
+        String stringAppType = params.get("--app_type");
+        String configFile = params.get("--config_file");
+        String newConfigFile = params.get("--new_config_file");
+        String senderType = params.get("--sender_type");
+        String appId = params.get("--is_run_app");
         if (AppType.contains(stringAppType)) {
             LOGGER.error("Not found application type");
             return;
@@ -77,10 +82,12 @@ public class Starter {
         JobConfigJsonSerializer jobConfigJsonSerializer = appType.getJobConfigJsonSerializer();
         JSONObjectFileWriter writer = new JSONObjectFileWriter();
         JsonJobProblemReportGenerator generator = appType.getJsonJobProblemReportGenerator();
-        ReportSender sender = appType.getReportSenderFactory().createReportSenderByAppArgs(ReportSenderFactory.SenderType.valueOf(senderType.toUpperCase()),args);
         try {
+            ReportSender sender = appType.getReportSenderFactory().createReportSenderByAppArgs(ReportSenderFactory.SenderType.valueOf(senderType.split(" ")[0].toUpperCase()),params.get("--sender_type"));
             JobConfig config = parser.parse(configFile);
-            String appId = executor.executeJob(config);
+            if(Boolean.valueOf(appId)){
+                appId = executor.executeJob(config);
+            }
             JSONObject metric = dumper.dump(appId, config);
             JSONObject analysis = analyst.analyze(metric);
             Map<String, JobProblemSolution> solutionMap = problemSolver.solveProblems(analysis, config);
@@ -93,10 +100,9 @@ public class Starter {
                 writer.write(json, newConfigFile);
             }
             sender.sendReport(report);
-        } catch (ParseConfigException | JobDumpException | WriteFileException | ReportSendException e) {
+        } catch (ParseConfigException | JobDumpException | WriteFileException | ReportSendException | JobExecuteException e) {
             LOGGER.error("Error", e);
-        } catch (JobExecuteException e) {
-            e.printStackTrace();
+            System.exit(-1);
         }
     }
 
